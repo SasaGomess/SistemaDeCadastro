@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Sistema de Cadastros.iml" filepath="$PROJECT_DIR$/Sistema de Cadastros.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SistemaCadastros.iml" filepath="$PROJECT_DIR$/SistemaCadastros.iml" />
     </modules>
   </component>
 </project>

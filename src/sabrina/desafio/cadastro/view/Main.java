@@ -59,7 +59,7 @@ public class Main {
 
         } catch (InputMismatchException e) {
             System.out.println("Valor de entrada inválido");
-            e.getMessage();
+            System.out.println(e.getMessage());
         }
     }
 

@@ -4,7 +4,7 @@ import sabrina.desafio.cadastro.enums.SexoPet;
 import sabrina.desafio.cadastro.enums.TipoPet;
 
 public class Pet {
-    public static final String NAO_INFORMADO = null;
+    public static final String NAO_INFORMADO = "NÃO INFORMADO";
     private String nomeSobrenome;
     private TipoPet tipoPet;
     private SexoPet sexoPet;

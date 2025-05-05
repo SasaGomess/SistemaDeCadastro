@@ -126,7 +126,7 @@ public class Main {
             } else if (idadeAprox < 0) {
 
             }
-            System.out.println(stringReader.get(6));
+            System.out.println(stringReader.get(6)); 
 
             String racaPet = sc.next(Pattern.compile(regex2));
 

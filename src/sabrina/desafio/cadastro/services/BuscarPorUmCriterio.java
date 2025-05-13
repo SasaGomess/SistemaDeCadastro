@@ -9,7 +9,7 @@ import java.util.Scanner;
 import java.util.stream.Collectors;
 
 public class BuscarPorUmCriterio {
-    public static void buscandoPorUmCriterio(Scanner sc, List<Pet> resultBusca){
+    public static List<Pet> buscandoPorUmCriterio(Scanner sc, List<Pet> resultBusca){
         List<Pet> petsPorUmCriterio = new ArrayList<>();
         System.out.println("Qual criterio de busca você deseja");
         System.out.println("1. Nome e/ou Sobrenome");
@@ -29,7 +29,7 @@ public class BuscarPorUmCriterio {
                     break;
                 case 2:
                     String sexoBuscado = sc.nextLine();
-                    petsPorUmCriterio = resultBusca.stream().filter(p -> p.getSexoPet().toString().equalsIgnoreCase(sexoBuscado.toUpperCase())).collect(Collectors.toList());
+                    petsPorUmCriterio = resultBusca.stream().filter(p -> p.getSexoPet().toString().equalsIgnoreCase(sexoBuscado.toUpperCase().trim())).collect(Collectors.toList());
                     break;
                 case 3:
                     Double idadeBuscada = sc.nextDouble();
@@ -52,10 +52,11 @@ public class BuscarPorUmCriterio {
                     buscandoPorUmCriterio(sc, resultBusca);
                     break;
             }
-            System.out.println("Pet encontrado: ");
+            System.out.println("Pet(s) encontrado(s): ");
             for (int i = 0; i < petsPorUmCriterio.size(); i++) {
                 System.out.println((i+1)+ ". " + petsPorUmCriterio.get(i));
             }
         }
+        return petsPorUmCriterio;
     }
 }

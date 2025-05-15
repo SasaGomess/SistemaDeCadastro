@@ -4,6 +4,7 @@ import sabrina.desafio.cadastro.entities.Pet;
 import sabrina.desafio.cadastro.enums.SexoPet;
 import sabrina.desafio.cadastro.enums.TipoPet;
 import sabrina.desafio.cadastro.utils.ValidandoEntrada;
+
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -13,9 +14,10 @@ import static sabrina.desafio.cadastro.utils.LeituraArquivos.lendoArquivo;
 
 public class CadastrarPets {
     public void cadastrandoPet(Scanner sc) {
-        lendoArquivo();
         Pet pet = new Pet(new Endereco());
+        lendoArquivo();
         ValidandoEntrada entrada = new ValidandoEntrada();
+
         try {
             System.out.println(lendoArquivo().get(0));
             String nome = entrada.validadoNome(sc);
@@ -53,9 +55,9 @@ public class CadastrarPets {
             System.out.println(lendoArquivo().get(6));
             String racaPet = entrada.validandoRaca(sc);
             pet.setRaca(racaPet);
-            System.out.println(pet);
 
             pet.save();
+
         } catch (InputMismatchException | IllegalArgumentException | EnumConstantNotPresentException e) {
             System.out.println(e.getMessage());
         }

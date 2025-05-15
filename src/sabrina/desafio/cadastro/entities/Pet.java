@@ -3,10 +3,9 @@ package sabrina.desafio.cadastro.entities;
 import sabrina.desafio.cadastro.enums.SexoPet;
 import sabrina.desafio.cadastro.enums.TipoPet;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -23,6 +22,7 @@ public class Pet {
     private Double idade;
     private Double peso;
     private String raca;
+    private int index;
 
     public Pet() {
     }
@@ -87,6 +87,14 @@ public class Pet {
         return raca;
     }
 
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
+    }
+
     public void setRaca(String raca) {
         if (raca.trim().isEmpty()){
             this.raca = NAO_INFORMADO;
@@ -96,6 +104,7 @@ public class Pet {
     }
 
     public String gerandoNomeArquivoPet() {
+
         LocalDateTime timeNow = LocalDateTime.now();
         String gerandoData = timeNow.format(DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmm"));
 
@@ -110,40 +119,58 @@ public class Pet {
     }
 
     public void save() {
-        List<Pet> petList = new ArrayList<>();
-
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(gerandoNomeArquivoPet()))) {
-            bw.write("1 - " + getNomeSobrenome());
-            bw.newLine();
+                bw.write("1 - " + getNomeSobrenome());
+                bw.newLine();
 
-            bw.write("2 - " + getTipoPet());
-            bw.newLine();
+                bw.write("2 - " + getTipoPet());
+                bw.newLine();
 
-            bw.write("3 - " + getSexoPet());
-            bw.newLine();
+                bw.write("3 - " + getSexoPet());
+                bw.newLine();
 
-            bw.write("4 - Rua " + getEndereco().getRua() + ", " + getEndereco().getNumeroCasa() + ", " + getEndereco().getCidade());
-            bw.newLine();
+                bw.write("4 - Rua " + getEndereco().getRua() + ", " + getEndereco().getNumeroCasa() + ", " + getEndereco().getCidade());
+                bw.newLine();
 
-            if (getIdade() == 0.0) {
-                bw.write("5 - " + NAO_INFORMADO);
-            }else {
-                bw.write("5 - " + String.format("%.1f", getIdade()) + " anos");
-            }
-            bw.newLine();
+                if (getIdade() == 0.0) {
+                    bw.write("5 - " + NAO_INFORMADO);
+                }else {
+                    bw.write("5 - " + String.format("%.1f", getIdade()) + " anos");
+                }
+                bw.newLine();
 
-            if (getPeso() == 0.0){
-                bw.write("6 - " + NAO_INFORMADO);
-            }else {
-                bw.write("6 - " + String.format("%.1f", getPeso()) + "kg");
-            }
-            bw.newLine();
-            bw.write("7 - " + getRaca());
+                if (getPeso() == 0.0){
+                    bw.write("6 - " + NAO_INFORMADO);
+                }else {
+                    bw.write("6 - " + String.format("%.1f", getPeso()) + "kg");
+                }
+                bw.newLine();
+                bw.write("7 - " + getRaca());
+
             bw.flush();
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
     }
+    public void carregandoPet(Pet pet){
+        File folder = new File("\\petsCadastrados");
+
+       // List<Pet> petReader = save(pet);
+
+//        for (Pet arquivoPet: petReader){
+//            System.out.println(arquivoPet);
+//        }
+//        try(BufferedReader br = new BufferedReader(new FileReader(folder))){
+//            if (!petReader.isEmpty()){
+//                for (Pet petvalue : petReader){
+//
+//                }
+//            }
+//        }catch (IOException e){
+//
+//        }
+//        return petReader;
+   }
 
     @Override
     public boolean equals(Object o) {
@@ -160,7 +187,8 @@ public class Pet {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append(nomeSobrenome + " - ");
+        sb.append(index);
+        sb.append(". "+nomeSobrenome + " - ");
         sb.append(tipoPet + " - ");
         sb.append(sexoPet + " - ");
         sb.append(endereco + " - ");

@@ -1,10 +1,14 @@
 package sabrina.desafio.cadastro.view;
 
+import sabrina.desafio.cadastro.services.AlterarPet;
+import sabrina.desafio.cadastro.services.BuscarPet;
 import sabrina.desafio.cadastro.services.CadastrarPets;
 import sabrina.desafio.cadastro.services.MenuOpcoes;
 import sabrina.desafio.cadastro.utils.LeituraArquivos;
+import sabrina.desafio.cadastro.utils.PetUtils;
 
 import java.util.*;
+
 
 public class Main {
 
@@ -13,19 +17,28 @@ public class Main {
         MenuOpcoes menuOpcoes = new MenuOpcoes();
         int opcao = menuOpcoes.exibindoMenu();
         CadastrarPets cadastrarPets = new CadastrarPets();
+        AlterarPet alterarPet = new AlterarPet();
+        BuscarPet buscandoPet = new BuscarPet();
+        PetUtils petUtils = new PetUtils();
+        petUtils.adcionandoPetPorArquivoLido();
         LeituraArquivos.lendoArquivo();
+
         do {
             if (opcao == 1) {
                 cadastrarPets.cadastrandoPet(scanner);
-                break;
+                petUtils.adcionandoPetPorArquivoLido();
+                opcao = menuOpcoes.exibindoMenu();
             } else if (opcao == 2) {
-                break;
+                alterarPet.alterandoDados(scanner);
+                opcao = menuOpcoes.exibindoMenu();
             } else if (opcao == 3) {
                 break;
             } else if (opcao == 4) {
-                break;
+                petUtils.imprimindoLista();
+                opcao = menuOpcoes.exibindoMenu();
             } else if (opcao == 5) {
-                break;
+                buscandoPet.buscandoPet(scanner);
+                opcao = menuOpcoes.exibindoMenu();
             } else if (opcao == 6) {
                 System.out.println("Fechando o programa");
                 break;

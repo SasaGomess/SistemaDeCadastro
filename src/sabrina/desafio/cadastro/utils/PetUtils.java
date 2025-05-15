@@ -10,22 +10,19 @@ import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 
 public class PetUtils {
     public static List<Pet> petListArquivos = new ArrayList<>();
-    private static Set<Path> arquivosJaCarregados = new HashSet<>();
+    public static Map<Integer, Path> arquivosJaCarregados = new TreeMap<>();
     private static Path caminhoDiretorio = Paths.get("petsCadastrados");
-    private static int index = 1;
+    private static Integer index = 1;
 
     public List<Pet> adcionandoPetPorArquivoLido() {
         try (DirectoryStream<Path> arquivosStream = Files.newDirectoryStream(caminhoDiretorio)) {
             for (Path petArquivos : arquivosStream) {
-                if (!arquivosJaCarregados.contains(petArquivos)){
+                if (!arquivosJaCarregados.containsValue(petArquivos)){
                     System.out.println(petArquivos);
                     try (BufferedReader br = new BufferedReader(new FileReader(String.valueOf(petArquivos)))) {
 
@@ -53,20 +50,31 @@ public class PetUtils {
                         pet.setIdade(Double.parseDouble(idade));
                         pet.setPeso(Double.parseDouble(peso));
                         pet.setRaca(raca);
-                        index++;
                         petListArquivos.add(pet);
-                        arquivosJaCarregados.add(petArquivos);
+                        arquivosJaCarregados.put(index, petArquivos);
+                        index++;
                     }
                 }
             }
         } catch (IOException e) {
-           e.printStackTrace();
+            System.out.println("Ouve um erro na leitura do arquivo tente novamente"  + e.getMessage());
         }
         return petListArquivos;
     }
     public void imprimindoLista(){
         for (Pet petlist : petListArquivos){
             System.out.println(petlist);
+        }
+    }
+    public boolean deletandoArquivoPet(Integer valorExclusao){
+        try {
+            if (Files.deleteIfExists(arquivosJaCarregados.get(valorExclusao))){
+                arquivosJaCarregados.remove(valorExclusao);
+            };
+            return true;
+        }catch (IOException | UnsupportedOperationException e){
+            System.out.println("Ouve um erro na exclusão do pet tente novamente " + e.getMessage());
+            return false;
         }
     }
 }

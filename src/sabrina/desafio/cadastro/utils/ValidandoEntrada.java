@@ -1,5 +1,7 @@
 package sabrina.desafio.cadastro.utils;
 
+import sabrina.desafio.cadastro.enums.SexoPet;
+import sabrina.desafio.cadastro.enums.TipoPet;
 import sabrina.desafio.cadastro.exceptions.IdadeException;
 import sabrina.desafio.cadastro.exceptions.PesoException;
 import java.util.Scanner;
@@ -7,7 +9,7 @@ import java.util.regex.Pattern;
 
 public class ValidandoEntrada {
 
-    public final static String REGEX_STRINGS = "([a-zA-ZáàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ],.^?~=+-_/*)+";
+    public final static String REGEX_STRINGS = "^[a-zA-ZáàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ]+";
     public final static String REGEX_NOME_SOBRENOME = "^[a-zA-ZáàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ]+(\\s[a-zA-ZáàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ]+)+$";
 
     public boolean nomeException(String nomeSobrenome) {
@@ -125,11 +127,12 @@ public class ValidandoEntrada {
         return pesoAprox;
     }
 
+
     public String validandoRaca(Scanner sc){
         String racaPet = sc.nextLine();
         if(racaPet.isEmpty()){
             return racaPet;
-        } else if (!racaPet.matches(REGEX_STRINGS)) {
+        } else if (!racaPet.trim().matches(REGEX_STRINGS)) {
             System.out.println("A raça não pode conter numeros nem caracteres especiais tente novamente");
             return validandoRaca(sc);
         }

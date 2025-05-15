@@ -19,6 +19,9 @@ public class CadastrarPets {
         ValidandoEntrada entrada = new ValidandoEntrada();
 
         try {
+            System.out.println();
+            System.out.println(" > Cadastrando um novo pet! Por favor insira as informacoes a seguir: ");
+            System.out.println();
             System.out.println(lendoArquivo().get(0));
             String nome = entrada.validadoNome(sc);
             pet.setNomeSobrenome(nome);

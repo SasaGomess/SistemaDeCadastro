@@ -2,6 +2,7 @@ package sabrina.desafio.cadastro.services;
 
 import sabrina.desafio.cadastro.entities.Endereco;
 import sabrina.desafio.cadastro.entities.Pet;
+import sabrina.desafio.cadastro.services.interfaces.BuscarPetInterface;
 
 import java.util.ArrayList;
 import java.util.InputMismatchException;
@@ -9,7 +10,7 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
-public class BuscarPorUmCriterio {
+public class BuscarPorUmCriterio implements BuscarPetInterface {
     private String nomeBuscado;
     private String sexoBuscado;
     private Double pesoBuscado;
@@ -19,8 +20,8 @@ public class BuscarPorUmCriterio {
     private String numeroCasa;
     private String ruaBuscada;
 
-
-    public List<Pet> buscandoPorUmCriterio(Scanner sc, List<Pet> resultBusca) {
+    @Override
+    public List<Pet> buscandoPorCriterios(Scanner sc, List<Pet> resultBusca) {
         try {
             List<Pet> petsPorUmCriterio = new ArrayList<>();
             System.out.println("Qual criterio de busca você deseja");
@@ -86,7 +87,7 @@ public class BuscarPorUmCriterio {
         } catch (InputMismatchException | IllegalArgumentException e) {
             System.out.println("Pet não encontrado, ou entrada inválida tente novamente Por Favor: ");
             sc.next();
-            return buscandoPorUmCriterio(sc, resultBusca);
+            return buscandoPorCriterios(sc, resultBusca);
         }
     }
 }

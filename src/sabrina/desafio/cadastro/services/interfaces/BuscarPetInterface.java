@@ -6,5 +6,6 @@ import java.util.List;
 import java.util.Scanner;
 
 public interface BuscarPetInterface {
-    List<Pet> buscandoPet( Scanner scanner);
+    List<Pet> buscandoPorCriterios(Scanner scanner, List<Pet> pets);
+
 }

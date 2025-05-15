@@ -1,6 +1,7 @@
 package sabrina.desafio.cadastro.services;
 
 import sabrina.desafio.cadastro.entities.Pet;
+import sabrina.desafio.cadastro.services.interfaces.BuscarPetInterface;
 
 import java.util.*;
 import java.util.function.Predicate;
@@ -8,7 +9,7 @@ import java.util.stream.Collectors;
 
 import static sabrina.desafio.cadastro.utils.ValidandoEntrada.REGEX_STRINGS;
 
-public class BuscarPorDoisCriterios {
+public class BuscarPorDoisCriterios implements BuscarPetInterface {
     private String nomeBuscado;
     private String racaBuscada;
     private Double idadeBuscada;
@@ -18,7 +19,8 @@ public class BuscarPorDoisCriterios {
     private String numeroCasa;
     private String sexoBuscado;
 
-    public List<Pet> buscandoDoisCriterios(Scanner sc, List<Pet> resultPet) {
+    @Override
+    public List<Pet> buscandoPorCriterios(Scanner sc, List<Pet> resultPet) {
         List<Pet> petsPorDoisCriterios = new ArrayList<>();
         Predicate<Pet> predicate1 = null;
         Predicate<Pet> predicate2 = null;

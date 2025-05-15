@@ -34,9 +34,9 @@ public class BuscarPet {
         do {
             if(criterios == 1 || criterios == 2) {
                 if (criterios == 1) {
-                    resultBusca = buscarPorUmCriterio.buscandoPorUmCriterio(scanner, resultBusca);
+                    resultBusca = buscarPorUmCriterio.buscandoPorCriterios(scanner, resultBusca);
                 } else {
-                    resultBusca = buscandoDoisCriterios.buscandoDoisCriterios(scanner, resultBusca);
+                    resultBusca = buscandoDoisCriterios.buscandoPorCriterios(scanner, resultBusca);
                 }
                 break;
             }else {

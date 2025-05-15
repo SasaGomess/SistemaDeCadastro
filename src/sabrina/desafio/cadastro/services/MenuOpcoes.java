@@ -4,9 +4,9 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class MenuOpcoes {
-    private Scanner scanner = new Scanner(System.in);
 
-    public int exibindoMenu() {
+
+    public int exibindoMenu(Scanner scanner) {
         try {
             int resposta;
             System.out.println("\nMENU PRINCIPAL");
@@ -23,13 +23,13 @@ public class MenuOpcoes {
             if (resposta >= 1 && resposta <= 6) {
                 return resposta;
             } else {
-                return exibindoMenu();
+                return exibindoMenu(scanner);
             }
 
         } catch (InputMismatchException e) {
             System.out.println("Valor invalido, tente novamente");
             scanner.next();
-            return exibindoMenu();
+            return exibindoMenu(scanner);
         }
     }
 }

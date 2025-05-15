@@ -7,11 +7,11 @@ import java.util.regex.Pattern;
 
 public class ValidandoEntrada {
 
-    private String regex3 = "[0-9.,]+";
-    private String regex4 = "[0-9]+";
+    public final static String REGEX_STRINGS = "([a-zA-ZáàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ],.^?~=+-_/*)+";
+    public final static String REGEX_NOME_SOBRENOME = "^[a-zA-ZáàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ]+(\\s[a-zA-ZáàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ]+)+$";
 
     public boolean nomeException(String nomeSobrenome) {
-        if (!nomeSobrenome.trim().matches("^[a-zA-Z]+(\\s[a-zA-Z]+)+$")) {
+        if (!nomeSobrenome.trim().matches(REGEX_NOME_SOBRENOME)) {
             throw new IllegalArgumentException("O nome deverá ter [nome] e [sobrenome] e não deve ter caracteres especiais, Tente novamente :) ");
         }
         return true;
@@ -129,7 +129,7 @@ public class ValidandoEntrada {
         String racaPet = sc.nextLine();
         if(racaPet.isEmpty()){
             return racaPet;
-        } else if (!racaPet.matches(("[a-zA-Z]+"))) {
+        } else if (!racaPet.matches(REGEX_STRINGS)) {
             System.out.println("A raça não pode conter numeros nem caracteres especiais tente novamente");
             return validandoRaca(sc);
         }

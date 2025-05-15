@@ -12,7 +12,8 @@ import java.util.Scanner;
 import java.util.stream.Collectors;
 
 public class BuscarPet {
-    BuscarPorDoisCriterios buscandoDoisCriterios = new BuscarPorDoisCriterios();
+    private BuscarPorDoisCriterios buscandoDoisCriterios = new BuscarPorDoisCriterios();
+    private BuscarPorUmCriterio buscarPorUmCriterio = new BuscarPorUmCriterio();
 
     public List<Pet> buscandoPet(Scanner scanner) {
         List<Pet> resultBusca = PetUtils.petListArquivos;
@@ -23,15 +24,19 @@ public class BuscarPet {
                 System.out.println(resultBusca.get(i));
             }
         }
+        System.out.println();
+
+        System.out.println("Deseja buscar o pet pela data de cadastro?");
+
         System.out.println("Agora digite quantos criterios de busca você deseja [1 ou 2]: ");
         int criterios = scanner.nextInt();
 
         do {
             if(criterios == 1 || criterios == 2) {
                 if (criterios == 1) {
-                    resultBusca = BuscarPorUmCriterio.buscandoPorUmCriterio(scanner, resultBusca);
+                    resultBusca = buscarPorUmCriterio.buscandoPorUmCriterio(scanner, resultBusca);
                 } else {
-                    resultBusca= buscandoDoisCriterios.buscandoDoisCriterios(scanner, resultBusca);
+                    resultBusca = buscandoDoisCriterios.buscandoDoisCriterios(scanner, resultBusca);
                 }
                 break;
             }else {
@@ -52,8 +57,6 @@ public class BuscarPet {
 
         System.out.println("Qual o tipo do Pet? (cachorro ou gato): ");
         String resp = scanner.nextLine().trim().toUpperCase();
-
-        //TODO lidar com com entrada invalida
         do {
             if (resp.equalsIgnoreCase("CACHORRO")) {
                 return resultBusca.stream().filter(x -> x.getTipoPet().equals(TipoPet.CACHORRO)).collect(Collectors.toList());
@@ -62,7 +65,8 @@ public class BuscarPet {
             }
             System.out.println("Tipo de animal inválido, digite somente Cachorro ou Gato");
             resp = scanner.nextLine().trim().toUpperCase();
-        }while (resp.equalsIgnoreCase("CACHORRO") || resp.equalsIgnoreCase("GATO"));
+
+        }while (!resp.equalsIgnoreCase("CACHORRO") && !resp.equalsIgnoreCase("GATO"));
         return resultBusca;
     }
 }

@@ -26,13 +26,13 @@ public class BuscarPorDoisCriterios {
         int resposta2;
 
         while (true) {
-        System.out.println("Quais criterios de busca você deseja");
-        System.out.println("1. Nome e/ou Sobrenome");
-        System.out.println("2. Sexo");
-        System.out.println("3. Idade");
-        System.out.println("4. Peso");
-        System.out.println("5. Raça");
-        System.out.println("6. Endereço");
+            System.out.println("Quais criterios de busca você deseja");
+            System.out.println("1. Nome e/ou Sobrenome");
+            System.out.println("2. Sexo");
+            System.out.println("3. Idade");
+            System.out.println("4. Peso");
+            System.out.println("5. Raça");
+            System.out.println("6. Endereço");
 
 
             System.out.print("1° critério: ");
@@ -98,14 +98,14 @@ public class BuscarPorDoisCriterios {
                         } else if (resp == 3) {
                             System.out.println("Digite a rua da casa");
                             rua = sc.nextLine();
-                            return p -> p.getEndereco().getNumeroCasa().contains(numeroCasa.trim());
+                            return p -> p.getEndereco().getNumeroCasa().contains(rua.trim());
                         }
                         System.out.println("Endereco inválido digite novamente");
                         resp = sc.nextInt();
                     } while (resp != 1 && resp != 2 && resp != 3);
             }
             return null;
-        } catch (InputMismatchException | NullPointerException e){
+        } catch (InputMismatchException | NullPointerException e) {
             System.out.println("O valor digitado é inválido porfavor tente novamente");
             sc.next();
             return buscarPorDoisPredicados(sc, resposta);

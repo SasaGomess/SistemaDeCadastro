@@ -56,6 +56,8 @@ public class CadastrarPets {
             String racaPet = entrada.validandoRaca(sc);
             pet.setRaca(racaPet);
 
+            System.out.println("=============PET CADASTRADO COM SUCESSO==============");
+
             pet.save();
 
         } catch (InputMismatchException | IllegalArgumentException | EnumConstantNotPresentException e) {

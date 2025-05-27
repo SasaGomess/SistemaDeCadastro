@@ -21,9 +21,8 @@ public class BuscarPorUmCriterio implements BuscarPetInterface {
     private String ruaBuscada;
 
     @Override
-    public List<Pet> buscandoPorCriterios(Scanner sc, List<Pet> resultBusca) {
+    public List<Pet> buscandoPorCriterios(Scanner sc, List<Pet> resultBusca) throws IllegalStateException {
         try {
-            List<Pet> petsPorUmCriterio = new ArrayList<>();
             System.out.println("Qual criterio de busca você deseja");
             System.out.println("1. Nome e/ou Sobrenome");
             System.out.println("2. Sexo");
@@ -40,23 +39,23 @@ public class BuscarPorUmCriterio implements BuscarPetInterface {
                     case 1:
                         System.out.println("Digite o nome ou sobrenome procurado");
                         nomeBuscado = sc.nextLine();
-                        return petsPorUmCriterio = resultBusca.stream().filter(p -> p.getNomeSobrenome().toUpperCase().trim().contains(nomeBuscado.toUpperCase().trim())).collect(Collectors.toList());
+                        return resultBusca.stream().filter(p -> p.getNomeSobrenome().toUpperCase().trim().contains(nomeBuscado.toUpperCase().trim())).collect(Collectors.toList());
                     case 2:
                         System.out.println("Digite o sexo procurado");
                         sexoBuscado = sc.nextLine();
-                        return petsPorUmCriterio = resultBusca.stream().filter(p -> p.getSexoPet().toString().equalsIgnoreCase(sexoBuscado.toUpperCase().trim())).collect(Collectors.toList());
+                        return resultBusca.stream().filter(p -> p.getSexoPet().toString().equalsIgnoreCase(sexoBuscado.toUpperCase().trim())).collect(Collectors.toList());
                     case 3:
                         System.out.println("Digite a idade procurada");
                         idadeBuscada = sc.nextLine();
-                        return petsPorUmCriterio = resultBusca.stream().filter(p -> p.getIdade().toString().replaceAll(",", "").contains(idadeBuscada.replaceAll(",", ""))).collect(Collectors.toList());
+                        return resultBusca.stream().filter(p -> p.getIdade().toString().replaceAll(",", "").contains(idadeBuscada.replaceAll(",", ""))).collect(Collectors.toList());
                     case 4:
                         System.out.println("Digite o peso procurado");
                         pesoBuscado = sc.nextDouble();
-                        return petsPorUmCriterio = resultBusca.stream().filter(p -> p.getPeso().toString().replaceAll(",", "").contains(pesoBuscado.toString().replaceAll(",", ""))).collect(Collectors.toList());
+                        return resultBusca.stream().filter(p -> p.getPeso().toString().replaceAll(",", "").contains(pesoBuscado.toString().replaceAll(",", ""))).collect(Collectors.toList());
                     case 5:
                         System.out.println("Digite a raça procurada");
                         racaBuscada = sc.nextLine();
-                        return petsPorUmCriterio = resultBusca.stream().filter(p -> p.getRaca().toUpperCase().trim().contains(racaBuscada.toUpperCase().trim())).collect(Collectors.toList());
+                        return resultBusca.stream().filter(p -> p.getRaca().toUpperCase().trim().contains(racaBuscada.toUpperCase().trim())).collect(Collectors.toList());
                     case 6:
                         System.out.println("Digite qual parte do endereco deseja buscar");
                         System.out.println("[1] Cidade: ");
@@ -83,11 +82,12 @@ public class BuscarPorUmCriterio implements BuscarPetInterface {
                         } while (resp != 1 && resp != 2 && resp != 3);
                 }
             }
-            return petsPorUmCriterio;
-        } catch (InputMismatchException | IllegalArgumentException e) {
-            System.out.println("Pet não encontrado, ou entrada inválida tente novamente Por Favor: ");
+            System.out.println("Valor precisa estar entre 1 a 6, Tente novamente");
+        } catch (InputMismatchException e) {
+            System.out.println("Entrada inválida tente novamente por Favor: ");
             sc.next();
             return buscandoPorCriterios(sc, resultBusca);
         }
+        return null;
     }
 }

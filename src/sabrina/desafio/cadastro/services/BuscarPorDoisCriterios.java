@@ -20,8 +20,7 @@ public class BuscarPorDoisCriterios implements BuscarPetInterface {
     private String sexoBuscado;
 
     @Override
-    public List<Pet> buscandoPorCriterios(Scanner sc, List<Pet> resultPet) {
-        List<Pet> petsPorDoisCriterios = new ArrayList<>();
+    public List<Pet> buscandoPorCriterios(Scanner sc, List<Pet> resultPet) throws IllegalStateException {
         Predicate<Pet> predicate1 = null;
         Predicate<Pet> predicate2 = null;
         int resposta1;
@@ -36,7 +35,6 @@ public class BuscarPorDoisCriterios implements BuscarPetInterface {
             System.out.println("5. Raça");
             System.out.println("6. Endereço");
 
-
             System.out.print("1° critério: ");
             resposta1 = sc.nextInt();
             System.out.print("2° criterio: ");
@@ -49,16 +47,15 @@ public class BuscarPorDoisCriterios implements BuscarPetInterface {
                 predicate2 = buscarPorDoisPredicados(sc, resposta2);
 
                 if (predicate1 != null && predicate2 != null) {
-                    petsPorDoisCriterios = resultPet.stream().filter(predicate1.and(predicate2)).collect(Collectors.toList());
+                    return resultPet.stream().filter(predicate1.and(predicate2)).toList();
                 }
                 break;
             }
         }
-        return petsPorDoisCriterios;
+        return null;
     }
 
-    public Predicate<Pet> buscarPorDoisPredicados(Scanner sc, int resposta) {
-
+    public Predicate<Pet> buscarPorDoisPredicados(Scanner sc, int resposta) throws IllegalStateException {
         try {
             switch (resposta) {
                 case 1:
@@ -107,7 +104,7 @@ public class BuscarPorDoisCriterios implements BuscarPetInterface {
                     } while (resp != 1 && resp != 2 && resp != 3);
             }
             return null;
-        } catch (InputMismatchException | NullPointerException e) {
+        } catch (InputMismatchException e) {
             System.out.println("O valor digitado é inválido porfavor tente novamente");
             sc.next();
             return buscarPorDoisPredicados(sc, resposta);

@@ -6,8 +6,8 @@ import sabrina.desafio.cadastro.utils.PetUtils;
 import java.util.List;
 import java.util.Scanner;
 
-public class DeletarPet {
-   public BuscarPet buscarPet = new BuscarPet();
+public class DeletarPetService {
+   public BuscarPetService buscarPet = new BuscarPetService();
    public PetUtils petUtils = new PetUtils();
 
    public void deletandoPet(Scanner sc){
@@ -24,9 +24,8 @@ public class DeletarPet {
             System.out.println("[SIM] - [NÃO]");
             String respDefinitiva = sc.nextLine();
 
-            if (respDefinitiva.toUpperCase().trim().replaceAll(" ", "").equalsIgnoreCase("SIM")){
-               boolean exclusao = petUtils.deletandoArquivoPet(valorExclusao);
-
+            if (respDefinitiva.toUpperCase().replaceAll(" ", "").equalsIgnoreCase("SIM")){
+               boolean exclusao = PetUtils.deletandoArquivoPet(valorExclusao);
                if (exclusao){
                   PetUtils.petListArquivos.remove(valorExclusao - 1 );
                   System.out.println("Pet foi excluído com sucesso :D");

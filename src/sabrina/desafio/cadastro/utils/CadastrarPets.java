@@ -1,9 +1,8 @@
-package sabrina.desafio.cadastro.services;
+package sabrina.desafio.cadastro.utils;
 import sabrina.desafio.cadastro.entities.Endereco;
 import sabrina.desafio.cadastro.entities.Pet;
 import sabrina.desafio.cadastro.enums.SexoPet;
 import sabrina.desafio.cadastro.enums.TipoPet;
-import sabrina.desafio.cadastro.utils.ValidandoEntrada;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -14,7 +13,7 @@ import static sabrina.desafio.cadastro.utils.LeituraArquivos.lendoArquivo;
 
 public class CadastrarPets {
     public void cadastrandoPet(Scanner sc) {
-        Pet pet = new Pet(new Endereco());
+
         lendoArquivo();
         ValidandoEntrada entrada = new ValidandoEntrada();
 
@@ -22,47 +21,44 @@ public class CadastrarPets {
             System.out.println();
             System.out.println(" > Cadastrando um novo pet! Por favor insira as informacoes a seguir: ");
             System.out.println();
-            System.out.println(lendoArquivo().get(0));
-            String nome = entrada.validadoNome(sc);
-            pet.setNomeSobrenome(nome);
-
             System.out.println(lendoArquivo().get(1));
-            String tipoPet = sc.nextLine();
-            pet.setTipoPet(TipoPet.valueOf(tipoPet.toUpperCase()));
+            String nome = entrada.validadoNome(sc);
 
             System.out.println(lendoArquivo().get(2));
-            String sexoPet = sc.nextLine();
-            pet.setSexoPet(SexoPet.valueOf(sexoPet.toUpperCase()));
+            String tipoPet = sc.nextLine();
 
             System.out.println(lendoArquivo().get(3));
+            String sexoPet = sc.nextLine();
+
+
+            System.out.println(lendoArquivo().get(4));
             System.out.print("Numero casa: ");
             String numeroCasa = entrada.validandoEndereco(sc);
-            pet.getEndereco().setNumeroCasa(numeroCasa);
+
 
             System.out.print("Cidade: ");
             String cidade = sc.nextLine();
-            pet.getEndereco().setCidade(cidade);
+       ;
 
             System.out.print("Rua: ");
             String rua = sc.nextLine();
-            pet.getEndereco().setRua(rua);
 
-            System.out.println(lendoArquivo().get(4));
-            Double idade = entrada.validandoIdade(sc);
-            pet.setIdade(idade);
 
             System.out.println(lendoArquivo().get(5));
-            double peso = entrada.validandoPeso(sc);
-            pet.setPeso(peso);
+            Double idade = entrada.validandoIdade(sc);
+
 
             System.out.println(lendoArquivo().get(6));
+            double peso = entrada.validandoPeso(sc);
+
+
+            System.out.println(lendoArquivo().get(7));
             String racaPet = entrada.validandoRaca(sc);
-            pet.setRaca(racaPet);
 
-            System.out.println("=============PET CADASTRADO COM SUCESSO==============");
 
+            Pet pet = new Pet(nome, TipoPet.valueOf(tipoPet.toUpperCase()), SexoPet.valueOf(sexoPet.toUpperCase()), new Endereco(numeroCasa, cidade, rua),idade, peso, racaPet);
             pet.save();
-
+            System.out.println("=============PET CADASTRADO COM SUCESSO==============");
         } catch (InputMismatchException | IllegalArgumentException | EnumConstantNotPresentException e) {
             System.out.println(e.getMessage());
         }

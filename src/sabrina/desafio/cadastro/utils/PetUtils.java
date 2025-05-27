@@ -19,7 +19,7 @@ public class PetUtils {
     private static Path caminhoDiretorio = Paths.get("petsCadastrados");
     private static Integer index = 1;
 
-    public List<Pet> adcionandoPetPorArquivoLido() {
+    public static List<Pet> adcionandoPetPorArquivoLido() {
         try (DirectoryStream<Path> arquivosStream = Files.newDirectoryStream(caminhoDiretorio)) {
             for (Path petArquivos : arquivosStream) {
                 if (!arquivosJaCarregados.containsValue(petArquivos)){
@@ -38,18 +38,26 @@ public class PetUtils {
                         String idade = br.readLine().substring(4, 7).replace(",", ".");
                         String peso = br.readLine().substring(4, 7).replace(",", ".");
                         String raca = br.readLine().substring(4);
+                        double valuePeso;
+                        double valueIdade;
 
-                        Pet pet = new Pet(new Endereco());
+
+                        if (peso.trim().replaceAll(" ", "").equalsIgnoreCase("NÃOINFORMADO")){
+                            String pesoFormatado = peso.replaceAll("NÃOINFORMADO", "0.0");
+                            valuePeso = Double.parseDouble(pesoFormatado);
+                        }else {
+                            valuePeso = Double.parseDouble(peso);
+                        }
+
+                        if (idade.trim().replaceAll(" ", "").equalsIgnoreCase("NÃO")){
+                            String idadeFormatada = idade.replaceAll("NÃO", "0");
+                            valueIdade = Double.parseDouble(idadeFormatada);
+                        }else {
+                            valueIdade = Double.parseDouble(idade);
+                        }
+
+                        Pet pet = new Pet(nome, TipoPet.valueOf(tipo), SexoPet.valueOf(genero), new Endereco(rua, numero, cidade), valueIdade, valuePeso, raca);
                         pet.setIndex(index);
-                        pet.setNomeSobrenome(nome);
-                        pet.setTipoPet(TipoPet.valueOf(tipo));
-                        pet.setSexoPet(SexoPet.valueOf(genero));
-                        pet.getEndereco().setRua(rua);
-                        pet.getEndereco().setNumeroCasa(numero);
-                        pet.getEndereco().setCidade(cidade);
-                        pet.setIdade(Double.parseDouble(idade));
-                        pet.setPeso(Double.parseDouble(peso));
-                        pet.setRaca(raca);
                         petListArquivos.add(pet);
                         arquivosJaCarregados.put(index, petArquivos);
                         index++;
@@ -57,22 +65,21 @@ public class PetUtils {
                 }
             }
         } catch (IOException e) {
-            System.out.println("Ouve um erro na leitura do arquivo tente novamente"  + e.getMessage());
+            System.out.println("Arquivo/Pasta ainda vai ser criado(a)! Não existem nenhum pet cadastrado no arquivo ["  + e.getMessage() + "] ");
         }
         return petListArquivos;
     }
-    public void imprimindoLista(){
+
+    public static void imprimindoLista(){
         for (Pet petlist : petListArquivos){
             System.out.println(petlist);
         }
     }
-    public boolean deletandoArquivoPet(Integer valorExclusao){
+
+    public static boolean deletandoArquivoPet(Integer valorExclusao){
         try {
-            if (Files.deleteIfExists(arquivosJaCarregados.get(valorExclusao))){
-                arquivosJaCarregados.remove(valorExclusao);
-            };
-            return true;
-        }catch (IOException | UnsupportedOperationException e){
+             return Files.deleteIfExists(arquivosJaCarregados.get(valorExclusao));
+        }catch (IOException | UnsupportedOperationException | NullPointerException e){
             System.out.println("Ouve um erro na exclusão do pet tente novamente " + e.getMessage());
             return false;
         }

@@ -1,4 +1,4 @@
-package sabrina.desafio.cadastro.services;
+package sabrina.desafio.cadastro.utils;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;

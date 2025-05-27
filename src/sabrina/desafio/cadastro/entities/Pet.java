@@ -4,6 +4,8 @@ import sabrina.desafio.cadastro.enums.SexoPet;
 import sabrina.desafio.cadastro.enums.TipoPet;
 
 import java.io.*;
+import java.nio.file.FileAlreadyExistsException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
@@ -31,16 +33,32 @@ public class Pet {
         this.endereco = endereco;
     }
 
+    public Pet(String nomeSobrenome, TipoPet tipoPet, SexoPet sexoPet, Endereco endereco, Double idade, Double peso, String raca) {
+        if (nomeSobrenome.trim().isEmpty()) {
+            this.nomeSobrenome = NAO_INFORMADO;
+        }else {
+            this.nomeSobrenome = nomeSobrenome;
+        }
+
+        this.tipoPet = tipoPet;
+        this.sexoPet = sexoPet;
+        this.endereco = endereco;
+        this.idade = idade;
+        this.peso = peso;
+
+        if (raca.trim().isEmpty()) {
+            this.raca = NAO_INFORMADO;
+        } else{
+            this.raca = raca;
+        }
+    }
+
     public String getNomeSobrenome() {
         return nomeSobrenome;
     }
 
     public void setNomeSobrenome(String nomeSobrenome) {
-        if (nomeSobrenome.trim().isEmpty()) {
-            this.nomeSobrenome = NAO_INFORMADO;
-        } else {
-            this.nomeSobrenome = nomeSobrenome;
-        }
+        this.nomeSobrenome = nomeSobrenome;
     }
 
     public TipoPet getTipoPet() {
@@ -72,7 +90,7 @@ public class Pet {
     }
 
     public void setIdade(Double idade) {
-       this.idade = idade;
+        this.idade = idade;
     }
 
     public Double getPeso() {
@@ -96,11 +114,19 @@ public class Pet {
     }
 
     public void setRaca(String raca) {
-        if (raca.trim().isEmpty()){
-            this.raca = NAO_INFORMADO;
-        }else {
-            this.raca = raca;
+        this.raca = raca;
+    }
+
+    public Path criandoPasta() {
+        Path pasta = Paths.get("petsCadastrados");
+        try {
+            if (Files.notExists(pasta)) {
+                return Files.createDirectory(pasta);
+            }
+        } catch (IOException e) {
+            System.out.println("Diretório já criado");
         }
+        return pasta;
     }
 
     public String gerandoNomeArquivoPet() {
@@ -108,69 +134,48 @@ public class Pet {
         LocalDateTime timeNow = LocalDateTime.now();
         String gerandoData = timeNow.format(DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmm"));
 
-        String gerandoNome = getNomeSobrenome().toUpperCase();
+        String gerandoNome = nomeSobrenome.toUpperCase();
         String gerandoNomeArquivo = gerandoData + "-" + gerandoNome.replaceAll("\\s+", "") + ".txt";
 
-        File folder = new File("\\petsCadastrados");
-        String folderPath = folder.getParent();
+        Path folder = criandoPasta();
 
-        String criandoFile = folderPath + "C:\\temp\\ws-intelliJ\\Sistema de Cadastros\\petsCadastrados\\" + gerandoNomeArquivo;
-        return criandoFile;
+        return folder.getFileName() + "\\" + gerandoNomeArquivo;
     }
 
     public void save() {
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(gerandoNomeArquivoPet()))) {
-                bw.write("1 - " + getNomeSobrenome());
-                bw.newLine();
+            bw.write("1 - " + nomeSobrenome);
+            bw.newLine();
 
-                bw.write("2 - " + getTipoPet());
-                bw.newLine();
+            bw.write("2 - " + tipoPet);
+            bw.newLine();
 
-                bw.write("3 - " + getSexoPet());
-                bw.newLine();
+            bw.write("3 - " + sexoPet);
+            bw.newLine();
 
-                bw.write("4 - Rua " + getEndereco().getRua() + ", " + getEndereco().getNumeroCasa() + ", " + getEndereco().getCidade());
-                bw.newLine();
+            bw.write("4 - Rua " + getEndereco().getRua() + ", " + getEndereco().getNumeroCasa() + ", " + getEndereco().getCidade());
+            bw.newLine();
 
-                if (getIdade() == 0.0) {
-                    bw.write("5 - " + NAO_INFORMADO);
-                }else {
-                    bw.write("5 - " + String.format("%.1f", getIdade()) + " anos");
-                }
-                bw.newLine();
+            if (getIdade() == 0.0) {
+                bw.write("5 - " + NAO_INFORMADO);
+            } else {
+                bw.write("5 - " + String.format("%.1f", idade) + " anos");
+            }
+            bw.newLine();
 
-                if (getPeso() == 0.0){
-                    bw.write("6 - " + NAO_INFORMADO);
-                }else {
-                    bw.write("6 - " + String.format("%.1f", getPeso()) + "kg");
-                }
-                bw.newLine();
-                bw.write("7 - " + getRaca());
+            if (getPeso() == 0.0) {
+                bw.write("6 - " + NAO_INFORMADO);
+            } else {
+                bw.write("6 - " + String.format("%.1f", peso) + "kg");
+            }
+            bw.newLine();
+            bw.write("7 - " + raca);
 
             bw.flush();
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
     }
-    public void carregandoPet(Pet pet){
-        File folder = new File("\\petsCadastrados");
-
-       // List<Pet> petReader = save(pet);
-
-//        for (Pet arquivoPet: petReader){
-//            System.out.println(arquivoPet);
-//        }
-//        try(BufferedReader br = new BufferedReader(new FileReader(folder))){
-//            if (!petReader.isEmpty()){
-//                for (Pet petvalue : petReader){
-//
-//                }
-//            }
-//        }catch (IOException e){
-//
-//        }
-//        return petReader;
-   }
 
     @Override
     public boolean equals(Object o) {
@@ -187,13 +192,14 @@ public class Pet {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
+
         sb.append(index);
-        sb.append(". "+nomeSobrenome + " - ");
+        sb.append(". " + nomeSobrenome + " - ");
         sb.append(tipoPet + " - ");
         sb.append(sexoPet + " - ");
         sb.append(endereco + " - ");
-        sb  = idade == 0.0 ? sb.append(NAO_INFORMADO + " - ") : sb.append(String.format("%.1f",idade) + " anos - ");
-        sb  = peso == 0.0 ? sb.append(NAO_INFORMADO + " - ") : sb.append(String.format("%.1f",peso) + "kg - ");
+        sb = idade == 0.0 ? sb.append(NAO_INFORMADO + " - ") : sb.append(String.format("%.1f", idade) + " anos - ");
+        sb = peso == 0.0 ? sb.append(NAO_INFORMADO + " - ") : sb.append(String.format("%.1f", peso) + "kg - ");
         sb.append(raca);
         return sb.toString();
     }

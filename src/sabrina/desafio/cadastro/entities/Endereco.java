@@ -11,7 +11,11 @@ public class Endereco {
     }
 
     public Endereco(String numeroCasa, String cidade, String rua) {
-        this.numeroCasa = numeroCasa;
+        if (numeroCasa.isEmpty()){
+            this.numeroCasa = NAO_INFORMADO;
+        }else {
+            this.numeroCasa = numeroCasa;
+        }
         this.cidade = cidade;
         this.rua = rua;
     }
@@ -21,11 +25,7 @@ public class Endereco {
     }
 
     public void setNumeroCasa(String numeroCasa) {
-        if (numeroCasa.isEmpty()){
-            this.numeroCasa = NAO_INFORMADO;
-        }else {
-            this.numeroCasa = numeroCasa;
-        }
+        this.numeroCasa = numeroCasa;
     }
 
     public String getRua() {
